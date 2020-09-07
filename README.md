@@ -1,2 +1,2 @@
 # SampleSort
-Projeto da disciplina de Programção Concorrente
+Projeto da disciplina de Programação Concorrente
