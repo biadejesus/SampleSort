@@ -16,6 +16,9 @@ typedef struct indice{
     int fim;
 } indice;
 
+indice *vet_indices;
+
+
 
 void parametros(int t, char **args){
     int opt;
@@ -37,7 +40,6 @@ void parametros(int t, char **args){
 }
 
 void preencheVet(){
-    printf("\nEntrou PREENCHE\n");
     int x;
     vetor = (int *)malloc(sizeof(int *) * tam_vet);
     // int vetor[tam_vet];
@@ -47,8 +49,7 @@ void preencheVet(){
 }
 
 void divide_vetor(){
-    printf("\nENTROU DIVIDE\n");
-    indice vet_indices[num_threads];
+    vet_indices = (int *)malloc(sizeof(int *) * num_threads);
     int aux = (tam_vet/num_threads) -1;
     for(int i = 0; i < tam_vet; i+= (tam_vet/num_threads)){
         vet_indices->inicio = i;
