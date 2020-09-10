@@ -8,6 +8,7 @@
 #include <ctype.h>
 #include <getopt.h>
 
+FILE *arq;
 int num_threads;
 int tam_vet;
 int mediana;
@@ -24,26 +25,6 @@ typedef struct indice{
 
 // indice *vet_indices;
 
-
-
-void parametros(int t, char **args){
-    int opt;
-    while ((opt = getopt(t, args, "t:e:")) != -1){
-        switch (opt){
-        case 't':
-            num_threads = strtoul(optarg, NULL, 0); //tranformar str em long int
-            break;
-        case 'e':
-            tam_vet = strtoul(optarg, NULL, 0); //transformar em int
-            break;
-        case '?':
-            exit(EXIT_FAILURE);
-        default:
-            abort();
-        }
-    }
-
-}
 
 int comparador(const void *a, const void *b) {
    return ( *(int*)a - *(int*)b );
@@ -147,9 +128,48 @@ void ordenacao(){
     }
 }
 
+
+void parametros(int t, char **args){
+    int opt;
+    while ((opt = getopt(t, args, "t:e:a:")) != -1){
+        switch (opt){
+        case 't':
+            num_threads = strtoul(optarg, NULL, 0); //tranformar str em long int
+            break;
+        case 'e':
+            tam_vet = strtoul(optarg, NULL, 0); //transformar em int
+            preencheVet();
+            break;
+        case 'a':
+            arq = fopen(optarg, "rt");
+            if (arq == NULL) { 
+                fprintf(stderr, "nao deu para abrir arquivo\n");
+                return(1);
+            }
+            char *result;
+            int c =0;
+            int count = 0;
+            while (!feof(arq)){
+                c=getc(arq);
+              if (c == ' ' || c =='\n'){
+                count++;}
+            }
+            printf("numero %d ", count);
+            fclose(arq);
+            
+
+            break;
+        case '?':
+            exit(EXIT_FAILURE);
+        default:
+            abort();
+        }
+    }
+
+}
+
 int main(int argv, char **argc){
     parametros(argv, argc);
-    preencheVet();
     divide_vetor();
     pivo();
     ordenacao();
