@@ -1,4 +1,5 @@
 #include <pthread.h>
+#include <math.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,6 +11,7 @@
 int num_threads;
 int tam_vet;
 int *vetor;
+int *vetor_pivo;
 int **vet_aux;
 
 typedef struct indice{
@@ -76,24 +78,37 @@ void divide_vetor(){
             k++;
         }
     }
-    // printf("\n");
-    // for(int i = 0; i < num_threads; i++ ){
-    //     for(int k = 0; k< tam_vet/num_threads; k++){
-    //         printf(" %d ",vet_aux[i][k]);
-    //     }
-    //     printf("\n");
-    // }
+    printf("\n");
+    for(int i = 0; i < num_threads; i++ ){
+        for(int k = 0; k< tam_vet/num_threads; k++){
+            printf(" %d ",vet_aux[i][k]);
+        }
+        printf("\n");
+    }
 }
 
-// void pivo(){
-//     int num_pivo = num_threads -1;
-//     for(int i = 0; i<tam_vet; i++){
-//         vet_indices[i]
-//     }
-// }
+void pivo(){
+    int k =0;
+    int num_pivo = num_threads -1;
+    vetor_pivo = (int *)malloc(sizeof(int *) * (num_threads*num_pivo));
+    int mediana = floor((tam_vet/num_threads)/num_pivo);
+    printf("MEDIANA: %d ", mediana);
+    for(int i = 0; i < num_threads; i++ ){
+        for(int j = 0; j< tam_vet/num_threads; j+=mediana+1){
+            printf("\n J: %d ", j);
+            vetor_pivo[k]= vet_aux[i][j];
+            k++;
+        }
+    }
+    printf("\nPIVOS: ");
+    for(int i = 0; i<num_threads*num_pivo; i++ ){
+        printf(" %d ", vetor_pivo[i]);
+    }
+}
 
 int main(int argv, char **argc){
     parametros(argv, argc);
     preencheVet();
     divide_vetor();
+    pivo();
 }
