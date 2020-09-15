@@ -96,6 +96,7 @@ void pivo(){
 
     for(int j = 0; j< num_threads*num_threads; j+=novamediana){
         vetor_pivo[k]= vet_pivoaux[j];
+        printf("\nPIVOS: %d", vetor_pivo[k]);
         k++;
     }
 }
@@ -103,29 +104,24 @@ void pivo(){
 void ordenacao(){
     int x = 0;
     vet_ord = (int *)malloc(sizeof(int *) * tam_vet);
-    for(int k = 0; k< num_threads; k++){
-        printf("\nENTROU %d ", vetor_pivo[k]);
+    
+    for(int k = 0; k < num_threads; k++ ){
         for(int i = 0; i < num_threads; i++ ){
             for(int j = 0; j < tam_vet/num_threads; j++){
-                if(vetor_pivo[k] > vet_aux[i][j]){
-                    printf("\nEntrou if 1");
+                printf("\n K: %d, j: %d", i, j);
+                if(vetor_pivo[k]> vet_aux[i][j]){
                     printf("\nA: %d", vet_aux[i][j]);
                     vet_ord[x] = vet_aux[i][j];
                     x++; 
                 }
-                else if(vetor_pivo[k] == vetor_pivo[num_threads-1]){
-                    printf("\nEntrou else if ");
-                    printf("\nA: %d", vet_aux[i][j]);
-
-                    vet_ord[x] = vet_aux[i][j];
-                    x++;
+                if(vetor_pivo[i]< vet_aux[i][j]){
+                    printf("\nBREAKO");
+                    break;
                 }
-                else continue;
             }
         qsort(vet_ord, x, sizeof(int ), comparador);
 
         }
-    
     }
     printf("\nVetor ordenado: \n");
     for(int i =0; i< x; i++){
