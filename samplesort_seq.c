@@ -11,7 +11,7 @@
 FILE *arq;
 int num_threads;
 int tam_vet;
-int mediana;
+int mediana, novamediana;
 int *vetor;
 int *vetor_pivo;
 int **vet_aux;
@@ -67,12 +67,13 @@ void divide_vetor(){
         }
         qsort(vet_aux[i], tam_vet/num_threads, sizeof(int ), comparador);
         printf("\nVETOR AUXILIAR");
-        for(int q = 0; q< num_threads; q++){
+        
+    }
+    for(int q = 0; q< num_threads; q++){
             for (int w=0; w< (tam_vet/num_threads); w++){
                 printf("\nq: %d aux: %d", q, vet_aux[q][w]); //SE COLOCA ESSE PRINT DA SEG FAULT
             }
         }
-    }
 }
 
 void pivo(){
@@ -81,10 +82,8 @@ void pivo(){
     mediana = floor((tam_vet/num_threads)/num_threads);
     int vet_pivoaux[num_threads*num_threads];
 
-    printf("\nMEDIANA: %d ", mediana);
     for(int i = 0; i < num_threads; i++ ){
-        for(int j = 0; j< tam_vet/num_threads; j+=mediana+1){
-            printf("\n J: %d ", j);
+        for(int j = 0; j< tam_vet/num_threads; j+=mediana){
             vet_pivoaux[k]= vet_aux[i][j];
             k++;
         }
@@ -92,39 +91,38 @@ void pivo(){
     k = 0;  
 
     qsort(vet_pivoaux, num_threads*num_threads, sizeof(int ), comparador);
-    for(int i = 0; i< num_threads*num_threads; i++)
-        printf("\nj: %d ", vet_pivoaux[i]);
-    printf("\nPIVOS: ");
 
-    for(int j = 0; j< num_threads*num_threads; j+=mediana+1){
+    novamediana = num_threads;
+
+    for(int j = 0; j< num_threads*num_threads; j+=novamediana){
         vetor_pivo[k]= vet_pivoaux[j];
         k++;
     }
-    for(int i = 0; i< num_threads; i++)
-        printf("i: %d ", vetor_pivo[i]);
 }
 
 void ordenacao(){
     int x = 0;
     vet_ord = (int *)malloc(sizeof(int *) * tam_vet);
     for(int k = 0; k< num_threads; k++){
-        printf(" ENTROU %d \n", vetor_pivo[k]);
+        printf("\nENTROU %d ", vetor_pivo[k]);
         for(int i = 0; i < num_threads; i++ ){
-            for(int j = 0; j< tam_vet/num_threads; j++){
+            for(int j = 0; j < tam_vet/num_threads; j++){
                 if(vetor_pivo[k] > vet_aux[i][j]){
+                    printf("\nEntrou if 1");
+                    printf("\nA: %d", vet_aux[i][j]);
                     vet_ord[x] = vet_aux[i][j];
-                    x++;
-                    
+                    x++; 
                 }
-            
                 else if(vetor_pivo[k] == vetor_pivo[num_threads-1]){
+                    printf("\nEntrou else if ");
+                    printf("\nA: %d", vet_aux[i][j]);
+
                     vet_ord[x] = vet_aux[i][j];
                     x++;
                 }
                 else continue;
-            qsort(vet_ord, x, sizeof(int ), comparador);
-                
             }
+        qsort(vet_ord, x, sizeof(int ), comparador);
 
         }
     
