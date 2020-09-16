@@ -56,20 +56,42 @@ void preencheVet(){
 //     }
 // }
 void divide_vetor(){
+    int x = tam_vet%num_threads;
     vet_aux = (int **)malloc(num_threads * sizeof(int *));
     int k = 0;
     for(int i = 0; i < num_threads; i++ ){
-        vet_aux[i] = (int*) malloc(tam_vet/num_threads * sizeof(int));
-        for(int j = 0; j< tam_vet/num_threads; j++){
-            printf("J: %d ", j);
+        if(x!=0){
+            printf("\nentrou if\n");
+            vet_aux[i] = (int*) malloc((tam_vet/num_threads)+1 * sizeof(int));
+            x--;
+
+        for(int j = 0; j< (tam_vet/num_threads)+1; j++){
+            printf("K no if : %d ", vetor[k]);
             vet_aux[i][j] = vetor[k];
             k++;
         }
+        qsort(vet_aux[i], (tam_vet/num_threads)+1, sizeof(int ), comparador);
+        }
+        else{    
+
+            printf("\nentrou else\n");
+            vet_aux[i] = (int*) malloc((tam_vet/num_threads) * sizeof(int));
+
+        for(int j = 0; j< tam_vet/num_threads; j++){
+
+             printf("K no else : %d ", vetor[k]);
+            vet_aux[i][j] = vetor[k];
+            k++;
+    
+        }
         qsort(vet_aux[i], tam_vet/num_threads, sizeof(int ), comparador);
+
+        }
+        
     }
     printf("VET AUX: ");
     for(int i = 0; i < num_threads; i++ ){
-        for(int j = 0; j< tam_vet/num_threads; j++){
+        for(int j = 0; j< (tam_vet/num_threads)+1; j++){
             printf(" %d ", vet_aux[i][j]);
         }
         printf("\n");
@@ -77,30 +99,42 @@ void divide_vetor(){
 }
 
 void pivo(){
+    int x = tam_vet%num_threads;
     int k =0;
     vetor_pivo = (int *)malloc(sizeof(int *) * (num_threads));
-    mediana = floor((tam_vet/num_threads)/num_threads);
+    // if(x != 0)
+    //     mediana = floor((tam_vet/num_threads)+1/num_threads);
+    // else{
+    //     mediana = floor((tam_vet/num_threads)+1/num_threads);
+    // }
+    mediana = floor((tam_vet/num_threads)+1/num_threads);
+    
     int vet_pivoaux[num_threads*num_threads];
 
     printf("MEDIANA: %d ", mediana);
     for(int i = 0; i < num_threads; i++ ){
-        for(int j = 0; j< tam_vet/num_threads; j+=mediana){
+        printf("\n\nSIZEOFF: %d \n\n", sizeof(*vet_aux[i]));
+        for(int j = 0; j< sizeof(*vet_aux[i]); j+=mediana){
             printf("\n J: %d ", j);
             vet_pivoaux[k]= vet_aux[i][j];
             k++;
         }
     }
     k = 0;  
-
     qsort(vet_pivoaux, num_threads*num_threads, sizeof(int ), comparador);
     
 
     for(int i = 0; i< num_threads*num_threads; i++){
         printf("Vaux: %d ",vet_pivoaux[i] );
     }
-    for(int j = mediana; j< num_threads*num_threads; j+=mediana+1){
+    
+    for(int j = 0; j< num_threads*num_threads; j+=num_threads){
+        printf("AAAAAAAAAAAAAAAAAAAA");
         // printf("Vaux: %d",vet_pivoaux[j] );
         vetor_pivo[k]= vet_pivoaux[j];
+        printf("vet %d ", vetor_pivo[k]);
+        printf("aux %d ", vet_pivoaux[j]);
+        
         k++;
     }
     printf("\nPIVOS: ");
