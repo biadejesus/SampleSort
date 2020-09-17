@@ -29,7 +29,6 @@ int comparador(const void *a, const void *b) {
 }
 
 void preencheVet(){
-    int x;
     vetor = (int *)malloc(sizeof(int *) * tam_vet);
     // int vetor[tam_vet];
     srand(time(NULL));
@@ -44,7 +43,9 @@ void preencheVet(){
 }
 
 void divide_vetor(){
+        printf("T = %d TAM = %d ", num_threads, tam_vet);
     int x = tam_vet%num_threads;
+    printf("T = %d TAM = %d ", num_threads, tam_vet);
     vet_aux = (int **)malloc(num_threads * sizeof(int *));
     int k = 0;
     for(int i = 0; i < num_threads; i++ ){
@@ -208,23 +209,29 @@ void parametros(int t, char **args){
             preencheVet();
             break;
         case 'a':
-            arq = fopen(optarg, "rt");
+           arq = fopen(optarg, "rt");
             if (arq == NULL) { 
                 fprintf(stderr, "nao deu para abrir arquivo\n");
                 return(1);
             }
             char *result;
-            int c =0;
+            int i =0;
+            int k=0;
             int count = 0;
-            while (!feof(arq)){
-                c=getc(arq);
-              if (c == ' ' || c =='\n'){
-                count++;}
-            }
-            printf("numero %d ", count);
-            fclose(arq);
-            
 
+            while (!feof(arq)){
+                fscanf(arq, "%d", &k);
+                count++;
+            }
+            rewind(arq);
+            vetor = (int *)malloc(sizeof(int *) * count);
+            while (!feof(arq)){
+                fscanf(arq, "%d", &k);
+                vetor[i] = k;
+                i++;
+            }
+            tam_vet = count;
+            fclose(arq);
             break;
         case '?':
             exit(EXIT_FAILURE);
@@ -237,6 +244,7 @@ void parametros(int t, char **args){
 
 int main(int argv, char **argc){
     parametros(argv, argc);
+    printf("T = %d TAM = %d ", num_threads, tam_vet);
     divide_vetor();
     pivo();
     ordenacao();
