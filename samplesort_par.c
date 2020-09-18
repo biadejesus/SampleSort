@@ -63,7 +63,7 @@ void parametros(int t, char **args)
             arq = fopen(optarg, "rt");
             if (arq == NULL)
             {
-                fprintf(stderr, "nao deu para abrir arquivo\n");
+                fprintf(stderr, "erro ao abrir arquivo\n");
                 return (1);
             }
             char *result;
