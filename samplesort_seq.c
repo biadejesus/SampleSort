@@ -14,191 +14,220 @@ int tam_vet;
 int mediana, novamediana;
 int *vetor;
 int *vetor_pivo;
+int *vet_pivoaux;
 int **vet_aux;
 int *vet_ord;
 
-typedef struct indice{
+typedef struct indice
+{
     int inicio;
     int fim;
 } indice;
 
-// indice *vet_indices;
-
-int comparador(const void *a, const void *b) {
-   return ( *(int*)a - *(int*)b );
+int comparador(const void *a, const void *b)
+{
+    return (*(int *)a - *(int *)b);
 }
 
-void preencheVet(){
-    int x;
+void preencheVet()
+{
     vetor = (int *)malloc(sizeof(int *) * tam_vet);
-    // int vetor[tam_vet];
     srand(time(NULL));
 
-    for(int i = 0; i<tam_vet; i++){
-        vetor[i] = rand() % (100);
-    }
-    printf("VETOR INICIAL: ");
-    for(int i = 0; i<tam_vet; i++){
-        printf(" %d ", vetor[i]);
+    for (int i = 0; i < tam_vet; i++)
+    {
+        vetor[i] = rand() % (tam_vet);
     }
 }
 
-// void divide_vetor(){
-//     vet_indices = (int *)malloc(sizeof(int *) * num_threads);
-//     int aux = (tam_vet/num_threads) -1;
-//     for(int i = 0; i < tam_vet; i+= (tam_vet/num_threads)){
-//         vet_indices[i].inicio = i;
-//         vet_indices[i].fim = aux;
-//         aux+= (tam_vet/num_threads);
-
-//     }
-// }
-
-void divide_vetor(){
-    int x = tam_vet%num_threads;
+void divide_vetor()
+{
+    int x = tam_vet % num_threads;
     vet_aux = (int **)malloc(num_threads * sizeof(int *));
     int k = 0;
-    for(int i = 0; i < num_threads; i++ ){
-        if(x!=0){
-            printf("\nentrou if\n");
-            vet_aux[i] = (int*) malloc((tam_vet/num_threads)+1 * sizeof(int));
+    for (int i = 0; i < num_threads; i++)
+    {
+        if (x != 0)
+        {
+            vet_aux[i] = (int *)malloc((tam_vet / num_threads) + 1 * sizeof(int));
             x--;
 
-            for(int j = 0; j< (tam_vet/num_threads)+1; j++){
-                printf("K no if : %d ", vetor[k]);
+            for (int j = 0; j < (tam_vet / num_threads) + 1; j++)
+            {
                 vet_aux[i][j] = vetor[k];
                 k++;
             }
-            qsort(vet_aux[i], (tam_vet/num_threads)+1, sizeof(int ), comparador);
+            qsort(vet_aux[i], (tam_vet / num_threads) + 1, sizeof(int), comparador);
         }
-        else{    
-            printf("\nentrou else\n");
-            vet_aux[i] = (int*) malloc((tam_vet/num_threads) * sizeof(int));
+        else
+        {
+            vet_aux[i] = (int *)malloc((tam_vet / num_threads) * sizeof(int));
 
-            for(int j = 0; j< tam_vet/num_threads; j++){
-                printf("K no else : %d ", vetor[k]);
+            for (int j = 0; j < tam_vet / num_threads; j++)
+            {
                 vet_aux[i][j] = vetor[k];
                 k++;
-        
             }
-            qsort(vet_aux[i], tam_vet/num_threads, sizeof(int ), comparador);
-        }  
-    }
-    printf("VET AUX: ");
-    for(int i = 0; i < num_threads; i++ ){
-        for(int j = 0; j< (tam_vet/num_threads)+1; j++){
-            printf(" %d ", vet_aux[i][j]);
+            qsort(vet_aux[i], tam_vet / num_threads, sizeof(int), comparador);
         }
-        printf("\n");
     }
-    for(int q = 0; q< num_threads; q++){
-        for (int w=0; w< (tam_vet/num_threads); w++){
+    for (int q = 0; q < num_threads; q++)
+    {
+        for (int w = 0; w < (tam_vet / num_threads); w++)
+        {
             printf("\nq: %d aux: %d", q, vet_aux[q][w]); //SE COLOCA ESSE PRINT DA SEG FAULT
         }
     }
 }
 
-void pivo(){
-    int x = tam_vet%num_threads;
-    int k =0;
+void pivo()
+{
+    int x = tam_vet % num_threads;
+    int k = 0;
     vetor_pivo = (int *)malloc(sizeof(int *) * (num_threads));
-    // if(x != 0)
-    //     mediana = floor((tam_vet/num_threads)+1/num_threads);
-    // else{
-    //     mediana = floor((tam_vet/num_threads)+1/num_threads);
-    // }
-    mediana = floor((tam_vet/num_threads)+1/num_threads);
-    
-    int vet_pivoaux[num_threads*num_threads];
+    mediana = floor((tam_vet / num_threads) / num_threads);
 
-    for(int i = 0; i < num_threads; i++ ){
-        printf("\n\nSIZEOFF: %d \n\n", sizeof(*vet_aux[i]));
-        for(int j = 0; j< sizeof(*vet_aux[i]); j+=mediana){
-            printf("\n J: %d ", j);
-            vet_pivoaux[k]= vet_aux[i][j];
-            k++;
+    vet_pivoaux = (int *)malloc(sizeof(int *) * (num_threads * num_threads));
+
+    for (int i = 0; i < num_threads; i++)
+    {
+        if (x != 0)
+        {
+            for (int j = 0; j < (tam_vet / num_threads) + 1; j += mediana)
+            {
+                vet_pivoaux[k] = vet_aux[i][j];
+                k++;
+            }
+            x--;
+        }
+        else
+        {
+            for (int j = 0; j < (tam_vet / num_threads); j += mediana)
+            {
+                vet_pivoaux[k] = vet_aux[i][j];
+                k++;
+            }
         }
     }
-    k = 0;  
-    qsort(vet_pivoaux, num_threads*num_threads, sizeof(int ), comparador);
-    
+    k = 0;
 
-    for(int i = 0; i< num_threads*num_threads; i++){
-        printf("Vaux: %d ",vet_pivoaux[i] );
-    }
-    
-    for(int j = 0; j< num_threads*num_threads; j+=num_threads){
-        printf("AAAAAAAAAAAAAAAAAAAA");
-        // printf("Vaux: %d",vet_pivoaux[j] );
-        vetor_pivo[k]= vet_pivoaux[j];
-        printf("vet %d ", vetor_pivo[k]);
-        printf("aux %d ", vet_pivoaux[j]);
-        
+    qsort(vet_pivoaux, num_threads * num_threads, sizeof(int), comparador);
+
+    for (int j = 0; j < num_threads * num_threads; j += num_threads)
+    {
+        vetor_pivo[k] = vet_pivoaux[j];
         k++;
     }
-    printf("\nPIVOS: ");
-    for(int i = 0; i< num_threads; i++)
-        printf(" %d ", vetor_pivo[i]);
 }
 
-void ordenacao(){
-    int x = 0;
+void ordenacao()
+{
+    int z = 0;
+    int x = tam_vet % num_threads;
     vet_ord = (int *)malloc(sizeof(int *) * tam_vet);
-    for(int k = 0; k< num_threads; k++){
-        printf(" ENTROU %d \n", vetor_pivo[k]);
-        for(int i = 0; i < num_threads; i++ ){
-            for(int j = 0; j< tam_vet/num_threads; j++){
-                printf("\n%d > %d? " ,vetor_pivo[k], vet_aux[i][j]);
-                if(vetor_pivo[k] > vet_aux[i][j] && vet_aux[i][j] != -1){
-                    vet_ord[x] = vet_aux[i][j];
-                    vet_aux[i][j] = -1;
-                    x++;
-                }
-                else if(vetor_pivo[k] == vetor_pivo[num_threads-1]){
-                    if(vet_aux[i][j] != -1){
-                        vet_ord[x] = vet_aux[i][j];
-                        x++;
+    for (int k = 0; k < num_threads; k++)
+    {
+        x = tam_vet % num_threads;
+        for (int i = 0; i < num_threads; i++)
+        {
+            if (x != 0)
+            {
+                x--;
+                for (int j = 0; j < (tam_vet / num_threads) + 1; j++)
+                {
+                    if (vetor_pivo[k] > vet_aux[i][j] && vet_aux[i][j] != -1)
+                    {
+                        vet_ord[z] = vet_aux[i][j];
+                        vet_aux[i][j] = -1;
+                        z++;
                     }
+
+                    else if (vetor_pivo[k] == vetor_pivo[num_threads - 1])
+                    {
+                        if (vet_aux[i][j] != -1)
+                        {
+                            vet_ord[z] = vet_aux[i][j];
+                            z++;
+                        }
+                    }
+                    else
+                        break;
+                    qsort(vet_ord, z, sizeof(int), comparador);
                 }
-                else break;
-            qsort(vet_ord, x, sizeof(int ), comparador); 
             }
-        qsort(vet_ord, x, sizeof(int ), comparador);
+            else
+            {
+                for (int j = 0; j < (tam_vet / num_threads); j++)
+                {
+                    if (vetor_pivo[k] > vet_aux[i][j] && vet_aux[i][j] != -1)
+                    {
+                        vet_ord[z] = vet_aux[i][j];
+                        vet_aux[i][j] = -1;
+                        z++;
+                    }
+
+                    else if (vetor_pivo[k] == vetor_pivo[num_threads - 1])
+                    {
+                        if (vet_aux[i][j] != -1)
+                        {
+                            vet_ord[z] = vet_aux[i][j];
+                            z++;
+                        }
+                    }
+                    else
+                        break;
+                    qsort(vet_ord, z, sizeof(int), comparador);
+                }
+            }
         }
     }
     printf("\nVetor ordenado: \n");
-    for(int i =0; i< x; i++){
+    for (int i = 0; i < tam_vet; i++)
+    {
         printf(" %d ", vet_ord[i]);
     }
     printf("\n");
 }
 
-void parametros(int t, char **args){
+void parametros(int t, char **args)
+{
     int opt;
-    while ((opt = getopt(t, args, "t:e:a:")) != -1){
-        switch (opt){
+    while ((opt = getopt(t, args, "t:n:a:")) != -1)
+    {
+        switch (opt)
+        {
         case 't':
             num_threads = strtoul(optarg, NULL, 0); //tranformar str em long int
             break;
-        case 'e':
+        case 'n':
             tam_vet = strtoul(optarg, NULL, 0); //transformar em int
             preencheVet();
             break;
         case 'a':
             arq = fopen(optarg, "rt");
-            if (arq == NULL) { 
+            if (arq == NULL)
+            {
                 fprintf(stderr, "nao deu para abrir arquivo\n");
-                return(1);
+                return (1);
             }
             char *result;
-            int c =0;
-            int count = 1;
-            while (!feof(arq)){
-                c=getc(arq);
-              if (c == ' ' || c =='\n'){
-                count++;}
+            int i = 0;
+            int k = 0;
+            int count = 0;
+
+            while (!feof(arq))
+            {
+                fscanf(arq, "%d", &k);
+                count++;
             }
-            printf("numero %d ", count);
+            rewind(arq);
+            vetor = (int *)malloc(sizeof(int *) * count);
+            while (!feof(arq))
+            {
+                fscanf(arq, "%d", &k);
+                vetor[i] = k;
+                i++;
+            }
             tam_vet = count;
             fclose(arq);
             break;
@@ -210,7 +239,8 @@ void parametros(int t, char **args){
     }
 }
 
-int main(int argv, char **argc){
+int main(int argv, char **argc)
+{
     parametros(argv, argc);
     divide_vetor();
     pivo();
