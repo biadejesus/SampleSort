@@ -68,11 +68,12 @@ void preencheVet()
         vetor[i] = rand() % (tam_vet);
     }
 }
-
+int w = 0;
 void pivo(int id)
 {
     int x = tam_vet % num_threads;
     int k = 0;
+    
 
     for (int i = id; i <= id; i++)
     { //toda thread vai começar com o y = 0 e isso ta errado
@@ -82,8 +83,15 @@ void pivo(int id)
             for (float j = 0; j < (tam_vet / num_threads) + 1; j += mediana)
             {   printf("\nJ= %f", j);
                 vet_pivoaux[y] = vet_aux[i][(int) round(j)];
+                printf("\nPIVO: %d", vet_pivoaux[y]);
                 pthread_mutex_lock(&lock);
                 y++;
+                w++;
+                printf("\nW: %d", w);
+                if(w == num_threads){
+                    w = 0;
+                    break;
+                }
                 pthread_mutex_unlock(&lock);
             }
             x--;
@@ -102,6 +110,7 @@ void pivo(int id)
             }
         }
         printf("\n-------------------------\n");
+        printf("printei aqui lul\n");
     }
     k = 0;
 
@@ -122,7 +131,7 @@ void *divide_vetor(int id)
     {
         if (x != 0)
         {
-            vet_aux[i] = (int *)malloc((tam_vet / num_threads) + 1 * sizeof(int));
+            vet_aux[i] = (int *)malloc(((tam_vet / num_threads) + 1 )* sizeof(int));
             x--;
 
             for (int j = 0; j < (tam_vet / num_threads) + 1; j++)
@@ -229,21 +238,21 @@ int main(int argv, char **argc)
         err = pthread_join(tid[i], NULL); //o join junta todas as threads de volta, trazendo o result final
     }
 
-    printf("\nVETOR ORIGINAL\n");
-    for (int j = 0; j < tam_vet; j++)
-        printf(" %d ", vetor[j]);
+    // printf("\nVETOR ORIGINAL\n");
+    // for (int j = 0; j < tam_vet; j++)
+    //     printf(" %d ", vetor[j]);
 
-    printf("\nVET AUX PIVO\n");
-    for (int j = 0; j < num_threads * num_threads; j++)
-        printf(" %d ", vet_pivoaux[j]);
+    // printf("\nVET AUX PIVO\n");
+    // for (int j = 0; j < num_threads * num_threads; j++)
+    //     printf(" %d ", vet_pivoaux[j]);
 
-    printf("\n---------------\n");
-    for (int i = 0; i < num_threads; i++)
-    {
-        for (int j = 0; j < tam_vet / num_threads; j++)
-        {
-            printf(" %d ", vet_aux[i][j]);
-        }
-        printf("\n");
-    }
+    // printf("\n---------------\n");
+    // for (int i = 0; i < num_threads; i++)
+    // {
+    //     for (int j = 0; j < tam_vet / num_threads; j++)
+    //     {
+    //         printf(" %d ", vet_aux[i][j]);
+    //     }
+    //     printf("\n");
+    // }
 }
