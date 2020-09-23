@@ -11,7 +11,7 @@
 FILE *arq;
 int num_threads;
 int tam_vet;
-int mediana;
+float mediana;
 int num_pivo;
 int *vetor;
 int *vetor_pivo;
@@ -72,6 +72,15 @@ void divide_vetor()
             qsort(vet_aux[i], tam_vet / num_threads, sizeof(int), comparador);
         }
     }
+    printf("\n---------------\n");
+    for (int i = 0; i < num_threads; i++)
+    {
+        for (int j = 0; j < tam_vet / num_threads; j++)
+        {
+            printf(" %d ", vet_aux[i][j]);
+        }
+        printf("\n");
+    }
 }
 
 void pivo()
@@ -79,7 +88,7 @@ void pivo()
     int x = tam_vet % num_threads;
     int k = 0;
     vetor_pivo = (int *)malloc(sizeof(int *) * (num_threads));
-    mediana = floor((tam_vet / num_threads) / num_threads);
+    mediana = (float)(tam_vet / num_threads) / num_threads;
 
     vet_pivoaux = (int *)malloc(sizeof(int *) * (num_threads * num_threads));
 
@@ -87,24 +96,31 @@ void pivo()
     {
         if (x != 0)
         {
-            for (int j = 0; j < (tam_vet / num_threads) + 1; j += mediana)
+            for (float j = 0; j < (tam_vet / num_threads) + 1; j += mediana)
             {
-                vet_pivoaux[k] = vet_aux[i][j];
+                printf("\nJ: %f", j);
+                vet_pivoaux[k] = vet_aux[i][(int) round(j)];
+                printf("\nPIVO: %d", vet_pivoaux[k]);
                 k++;
             }
             x--;
         }
         else
         {
-            for (int j = 0; j < (tam_vet / num_threads); j += mediana)
+            for (float j = 0; j < (tam_vet / num_threads); j += mediana)
             {
-                vet_pivoaux[k] = vet_aux[i][j];
+                printf("\nJ: %f", j);
+                vet_pivoaux[k] = vet_aux[i][(int) round(j)];
+                printf("\nPIVO: %d", vet_pivoaux[k]);
                 k++;
             }
         }
     }
     k = 0;
 
+    printf("\nVET AUX PIVO\n");
+    for (int j = 0; j < num_threads * num_threads; j++)
+        printf(" %d ", vet_pivoaux[j]);
     qsort(vet_pivoaux, num_threads * num_threads, sizeof(int), comparador);
 
     for (int j = 0; j < num_threads * num_threads; j += num_threads)

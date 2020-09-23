@@ -1,4 +1,4 @@
-#include <pthread.h> 
+#include <pthread.h>
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
@@ -53,7 +53,6 @@ pthread_barrier_t barrier;
 //     }
 // }
 
-
 int comparador(const void *a, const void *b)
 {
     return (*(int *)a - *(int *)b);
@@ -76,12 +75,13 @@ void pivo(int id)
     int k = 0;
 
     for (int i = id; i <= id; i++)
-    {//toda thread vai começar com o y = 0 e isso ta errado
+    { //toda thread vai começar com o y = 0 e isso ta errado
+        printf("\nID: %d", id);
         if (x != 0)
         {
-            for (int j = 0; j < (tam_vet / num_threads) + 1; j += mediana)
-            {
-                vet_pivoaux[y] = vet_aux[i][j];
+            for (float j = 0; j < (tam_vet / num_threads) + 1; j += mediana)
+            {   printf("\nJ= %f", j);
+                vet_pivoaux[y] = vet_aux[i][(int) round(j)];
                 pthread_mutex_lock(&lock);
                 y++;
                 pthread_mutex_unlock(&lock);
@@ -90,24 +90,22 @@ void pivo(int id)
         }
         else
         {
-            for (int j = 0; j < (tam_vet / num_threads); j += mediana)
+            for (float j = 0; j < (tam_vet / num_threads); j += mediana)
             {
-                
+
                 pthread_mutex_lock(&lock);
-                vet_pivoaux[y] = vet_aux[i][j];
+                printf("\nJ= %f", j);
+                vet_pivoaux[y] = vet_aux[i][(int) round(j)];
+                printf("\nPIVO: %d", vet_pivoaux[y]);
                 y++;
                 pthread_mutex_unlock(&lock);
             }
         }
+        printf("\n-------------------------\n");
     }
     k = 0;
 
     qsort(vet_pivoaux, num_threads * num_threads, sizeof(int), comparador);
-
-    printf("\nVET AUX PIVO\n");
-    for(int j = 0; j< num_threads * num_threads; j++)
-        printf(" %d ", vet_pivoaux[j]);
-   
 
     // for (int j = 0; j < num_threads * num_threads; j += num_threads)
     // {
@@ -118,13 +116,10 @@ void pivo(int id)
 
 void *divide_vetor(int id)
 {
-    printf("\n ID %d \n", id);
     int comeco = id * num_threads;
     int x = tam_vet % num_threads;
-    printf("começo %d \n", comeco);
     for (int i = id; i <= id; i++)
     {
-        printf("FOR ID : %d \n" ,id);
         if (x != 0)
         {
             vet_aux[i] = (int *)malloc((tam_vet / num_threads) + 1 * sizeof(int));
@@ -143,7 +138,7 @@ void *divide_vetor(int id)
         {
             vet_aux[id] = (int *)malloc((tam_vet / num_threads) * sizeof(int));
 
-            for (int j = 0; j <  (tam_vet / num_threads); j++)
+            for (int j = 0; j < (tam_vet / num_threads); j++)
             {
                 vet_aux[id][j] = vetor[y];
                 pthread_mutex_lock(&lock);
@@ -152,10 +147,10 @@ void *divide_vetor(int id)
             }
             qsort(vet_aux[id], tam_vet / num_threads, sizeof(int), comparador);
         }
-   }
-   pthread_barrier_wait (&barrier);
-   y = 0;
-   pivo(id);
+    }
+    pthread_barrier_wait(&barrier);
+    y = 0;
+    pivo(id);
 }
 
 void parametros(int t, char **args)
@@ -214,7 +209,8 @@ int main(int argv, char **argc)
     vet_aux = (long long **)malloc(num_threads * sizeof(long long *));
     vet_pivoaux = (long long *)malloc(sizeof(long long *) * (num_threads * num_threads));
     vetor_pivo = (long long *)malloc(sizeof(long long *) * (num_threads));
-    mediana = floor((tam_vet / num_threads) / num_threads);
+    mediana = (float)(tam_vet / num_threads) / num_threads;
+    printf("MEDIANA: %f\n", mediana);
 
     y = 0;
     int err;
@@ -222,27 +218,32 @@ int main(int argv, char **argc)
     // divide_vetor();
     // pivo();
     // ordenacao();
-    pthread_barrier_init (&barrier, NULL, num_threads);
-   
-    for( int i=0; i<num_threads; i++){
-        err = pthread_create(&tid[i], NULL, (void*) divide_vetor, i); //o pthread_create que armazena um valor no id
-        
+    pthread_barrier_init(&barrier, NULL, num_threads);
+
+    for (int i = 0; i < num_threads; i++)
+    {
+        err = pthread_create(&tid[i], NULL, (void *)divide_vetor, i); //o pthread_create que armazena um valor no id
     }
-    for (int i=0; i< num_threads; i++){
+    for (int i = 0; i < num_threads; i++)
+    {
         err = pthread_join(tid[i], NULL); //o join junta todas as threads de volta, trazendo o result final
     }
 
-     printf("\n");
-    for(int j = 0; j< tam_vet; j++)
+    printf("\nVETOR ORIGINAL\n");
+    for (int j = 0; j < tam_vet; j++)
         printf(" %d ", vetor[j]);
 
+    printf("\nVET AUX PIVO\n");
+    for (int j = 0; j < num_threads * num_threads; j++)
+        printf(" %d ", vet_pivoaux[j]);
+
     printf("\n---------------\n");
-    for(int i = 0; i< num_threads; i++){
-        for (int j = 0; j < tam_vet/num_threads; j++)
+    for (int i = 0; i < num_threads; i++)
+    {
+        for (int j = 0; j < tam_vet / num_threads; j++)
         {
             printf(" %d ", vet_aux[i][j]);
         }
         printf("\n");
-        
     }
 }
