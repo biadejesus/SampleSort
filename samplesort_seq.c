@@ -30,7 +30,7 @@ void preencheVet()
 
     for (int i = 0; i < tam_vet; i++)
     {
-        vetor[i] = rand() % (tam_vet);
+        vetor[i] = rand() % (tam_vet+1);
     }
 }
 
@@ -157,6 +157,7 @@ void ordenacao()
                         if (vet_aux[i][j] != -1)
                         {
                             vet_ord[z] = vet_aux[i][j];
+                            vet_aux[i][j] = -1;
                             z++;
                         }
                     }
@@ -181,6 +182,7 @@ void ordenacao()
                         if (vet_aux[i][j] != -1)
                         {
                             vet_ord[z] = vet_aux[i][j];
+                             vet_aux[i][j] = -1;
                             z++;
                         }
                     }
