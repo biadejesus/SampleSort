@@ -30,7 +30,7 @@ void preencheVet()
 
     for (int i = 0; i < tam_vet; i++)
     {
-        vetor[i] = rand() % (tam_vet+1);
+        vetor[i] = rand() % (200);
     }
 }
 
@@ -128,10 +128,17 @@ void pivo()
         vetor_pivo[k] = vet_pivoaux[j];
         k++;
     }
+    printf("\n----vetor pivo principal--------------\n");
+    for(int i = 0; i<num_threads; i++){
+        printf(" %d ", vetor_pivo[i]);
+    }
 }
 
 void ordenacao()
 {
+    printf("\nVETOR ORIGINAL\n");
+    for (int j = 0; j < tam_vet; j++)
+        printf(" %d ", vetor[j]);
     int z = 0;
     int x = tam_vet % num_threads;
     vet_ord = (long long *)malloc(sizeof(long long *) * tam_vet);
@@ -201,10 +208,10 @@ void ordenacao()
     printf("\n");
 }
 
-void parametros(int t, char **args)
+void parametros(int argv, char **args)
 {
     int opt;
-    while ((opt = getopt(t, args, "t:n:a:")) != -1)
+    while ((opt = getopt(argv, args, "t:n:a:")) != -1)
     {
         switch (opt)
         {
@@ -220,7 +227,7 @@ void parametros(int t, char **args)
             if (arq == NULL)
             {
                 fprintf(stderr, "nao deu para abrir arquivo\n");
-                return (1);
+                exit(EXIT_FAILURE);
             }
             char *result;
             int i = 0;
@@ -242,12 +249,15 @@ void parametros(int t, char **args)
             }
             tam_vet = count;
             fclose(arq);
-            break;
-        case '?':
-            exit(EXIT_FAILURE);
+            break;  
         default:
-            abort();
+            fprintf(stderr, "Opcao invalida ou faltando argumento: `%c'\n", optopt);
+            exit(EXIT_FAILURE);
         }
+    }
+    if((tam_vet/num_threads) < num_threads){
+        printf("\nEntrada inválida! Insina N e T tal que T < N/T\n");
+        exit(EXIT_FAILURE);
     }
 }
 
