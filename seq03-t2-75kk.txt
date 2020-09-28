@@ -1,0 +1,22 @@
+# started on Sun Sep 27 20:39:18 2020
+
+
+ Performance counter stats for 'system wide':
+
+       614.242.136        cache-misses              #   42,113 % of all cache refs      (50,00%)
+    62.337.529.650        cycles                    #    0,433 GHz                      (50,02%)
+    80.953.850.044        instructions              #    1,30  insn per cycle           (62,51%)
+     1.458.540.746        cache-references          #   10,133 M/sec                    (62,51%)
+    17.909.479.185        branches                  #  124,430 M/sec                    (62,51%)
+        143.931,43 msec   cpu-clock                 #    8,000 CPUs utilized          
+                 0        mem-loads                 #    0,000 K/sec                    (62,50%)
+           769.255        faults                    #    0,005 M/sec                  
+        143.933,86 msec   task-clock                #    8,000 CPUs utilized          
+       988.427.077        branch-misses             #    5,52% of all branches          (62,48%)
+    11.073.321.605        mem-stores                #   76,934 M/sec                    (49,98%)
+            178,51 Joules power/energy-cores/       #    0,001 K/sec                  
+             10,91 Joules power/energy-ram/         #    0,000 K/sec                  
+            209,92 Joules power/energy-pkg/         #    0,001 K/sec                  
+
+      17,991534041 seconds time elapsed
+
