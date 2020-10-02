@@ -7,12 +7,13 @@
 #include <errno.h>
 #include <ctype.h>
 #include <getopt.h>
+#include <sys/time.h>
 
 FILE *arq;
 int num_threads;
 int tam_vet;
 long long *vetor_tam;
-long double mediana;
+float mediana;
 long long *vetor;
 long long *vetor_pivo;
 long long *vet_pivoaux;
@@ -79,6 +80,7 @@ void pivo()
     int w = 0;
     vetor_pivo = (long long *)malloc(sizeof(long long *) * (num_threads));
     mediana = (float)(tam_vet / num_threads) / num_threads;
+    printf("MEDIANA=%f\n", mediana);
 
     vet_pivoaux = (long long *)malloc(sizeof(long long *) * (num_threads * num_threads));
 
@@ -244,4 +246,8 @@ int main(int argv, char **argc)
     divide_vetor();
     pivo();
     ordenacao();
+    struct timeval current_time;
+    gettimeofday(&current_time, NULL);
+    printf("seconds : %ld\nmicro seconds : %ld",
+    current_time.tv_sec, current_time.tv_usec);
 }

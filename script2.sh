@@ -1,48 +1,100 @@
 #! /bin/bash
 
-echo comecando testes sequencial
+echo comecando testes paralelo com o0
 
-gcc -O3 samplesort_seq.c -lm -o seq.o
+gcc -O0 samplesort_par.c -lm -lpthread -o par.o
+
+echo compilou paralelo
+
+sudo perf stat -o parRo0-t2-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 2 -n 444980000
+sudo perf stat -o parRo0-t4-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 4 -n 444980000
+sudo perf stat -o parRo0-t8-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 8 -n 444980000
+sudo perf stat -o parRo0-t12-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 12 -n 444980000
+sudo perf stat -o parRo0-t16-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 16 -n 444980000
+sudo perf stat -o parRo0-t2-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 2 -n 300000000
+sudo perf stat -o parRo0-t4-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 4 -n 300000000
+echo metade paralelo
+sudo perf stat -o parRo0-t8-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 8 -n 300000000
+sudo perf stat -o parRo0-t12-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 12 -n 300000000
+sudo perf stat -o parRo0-t16-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 16 -n 300000000
+sudo perf stat -o parRo0-t2-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 2 -n 200000000
+sudo perf stat -o parRo0-t4-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 4 -n 200000000
+sudo perf stat -o parRo0-t8-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 8 -n 200000000
+sudo perf stat -o parRo0-t12-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 12 -n 200000000
+sudo perf stat -o parRo0-t16-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 16 -n 200000000
+
+echo comecando testes sequencial com O0
+
+gcc -O0 samplesort_seq.c -lm -o seq.o
 
 echo compilou
 
-sudo perf stat -o seqR-t2-100kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 2 -n 100000000
-sudo perf stat -o seqR-t4-100kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 4 -n 100000000
-sudo perf stat -o seqR-t8-100kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 8 -n 100000000
-sudo perf stat -o seqR-t12-100kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 12 -n 100000000
-sudo perf stat -o seqR-t16-100kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 16 -n 100000000
-sudo perf stat -o seqR-t2-75kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 2 -n 75000000
-sudo perf stat -o seqR-t4-75kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 4 -n 75000000
+sudo perf stat -o seqRo0-t2-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 2 -n 444980000
+sudo perf stat -o seqRo0-t4-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 4 -n 444980000
+sudo perf stat -o seqRo0-t8-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 8 -n 444980000
+sudo perf stat -o seqRo0-t12-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 12 -n 444980000
+sudo perf stat -o seqRo0-t16-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 16 -n 444980000
+sudo perf stat -o seqRo0-t2-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 2 -n 300000000
+sudo perf stat -o seqRo0-t4-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 4 -n 300000000
 echo chegou na metade sequencial
-sudo perf stat -o seqR-t8-75kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 8 -n 75000000
-sudo perf stat -o seqR-t12-75kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 12 -n 75000000
-sudo perf stat -o seqR-t16-75kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 16 -n 75000000
-sudo perf stat -o seqR-t2-50kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 2 -n 50000000
-sudo perf stat -o seqR-t4-50kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 4 -n 50000000
-sudo perf stat -o seqR-t8-50kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 8 -n 50000000
-sudo perf stat -o seqR-t12-50kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 12 -n 50000000
-sudo perf stat -o seqR-t16-50kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./seq.o -t 16 -n 50000000
+sudo perf stat -o seqRo0-t8-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 8 -n 300000000
+sudo perf stat -o seqRo0-t12-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 12 -n 300000000
+sudo perf stat -o seqRo0-t16-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 16 -n 300000000
+sudo perf stat -o seqRo0-t2-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 2 -n 200000000
+sudo perf stat -o seqRo0-t4-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 4 -n 200000000
+sudo perf stat -o seqRo0-t8-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 8 -n 200000000
+sudo perf stat -o seqRo0-t12-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 12 -n 200000000
+sudo perf stat -o seqRo0-t16-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 16 -n 200000000
 echo acabou sequencial
-echo comecando testes paralelo
+
+echo acaboooo
+
+
+echo comecando testes paralelo com O3
 
 gcc -O3 samplesort_par.c -lm -lpthread -o par.o
 
 echo compilou paralelo
 
-sudo perf stat -o parR-t2-100kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 2 -n 100000000
-sudo perf stat -o parR-t4-100kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 4 -n 100000000
-sudo perf stat -o parR-t8-100kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 8 -n 100000000
-sudo perf stat -o parR-t12-100kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 12 -n 100000000
-sudo perf stat -o parR-t16-100kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 16 -n 100000000
-sudo perf stat -o parR-t2-75kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 2 -n 75000000
-sudo perf stat -o parR-t4-75kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 4 -n 75000000
+sudo perf stat -o parRo3-t2-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 2 -n 444980000
+sudo perf stat -o parRo3-t4-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 4 -n 444980000
+sudo perf stat -o parRo3-t8-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 8 -n 444980000
+sudo perf stat -o parRo3-t12-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 12 -n 444980000
+sudo perf stat -o parRo3-t16-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 16 -n 444980000
+sudo perf stat -o parRo3-t2-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 2 -n 300000000
+sudo perf stat -o parRo3-t4-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 4 -n 300000000
 echo metade paralelo
-sudo perf stat -o parR-t8-75kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 8 -n 75000000
-sudo perf stat -o parR-t12-75kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 12 -n 75000000
-sudo perf stat -o parR-t16-75kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 16 -n 75000000
-sudo perf stat -o parR-t2-50kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 2 -n 50000000
-sudo perf stat -o parR-t4-50kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 4 -n 50000000
-sudo perf stat -o parR-t8-50kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 8 -n 50000000
-sudo perf stat -o parR-t12-50kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 12 -n 50000000
-sudo perf stat -o parR-t16-50kk.txt -a -r 10 -i -e cache-misses,cycles,instructions,cache-references,branches,cpu-clock,mem-loads,faults,task-clock,branch-misses,mem-stores,power/energy-cores/,power/energy-ram/,power/energy-pkg/ ./par.o -t 16 -n 50000000
+sudo perf stat -o parRo3-t8-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 8 -n 300000000
+sudo perf stat -o parRo3-t12-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 12 -n 300000000
+sudo perf stat -o parRo3-t16-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 16 -n 300000000
+sudo perf stat -o parRo3-t2-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 2 -n 200000000
+sudo perf stat -o parRo3-t4-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 4 -n 200000000
+sudo perf stat -o parRo3-t8-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 8 -n 200000000
+sudo perf stat -o parRo3-t12-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 12 -n 200000000
+sudo perf stat -o parRo3-t16-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./par.o -t 16 -n 200000000
+
+echo comecando testes sequencial com O3
+
+gcc -O3 samplesort_seq.c -lm -o seq.o
+
+echo compilou
+
+sudo perf stat -o seqRo3-t2-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 2 -n 444980000
+sudo perf stat -o seqRo3-t4-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 4 -n 444980000
+sudo perf stat -o seqRo3-t8-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 8 -n 444980000
+sudo perf stat -o seqRo3-t12-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 12 -n 444980000
+sudo perf stat -o seqRo3-t16-444kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 16 -n 444980000
+sudo perf stat -o seqRo3-t2-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 2 -n 300000000
+sudo perf stat -o seqRo3-t4-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 4 -n 300000000
+echo chegou na metade sequencial
+sudo perf stat -o seqRo3-t8-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 8 -n 300000000
+sudo perf stat -o seqRo3-t12-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 12 -n 300000000
+sudo perf stat -o seqRo3-t16-300kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 16 -n 300000000
+sudo perf stat -o seqRo3-t2-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 2 -n 200000000
+sudo perf stat -o seqRo3-t4-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 4 -n 200000000
+sudo perf stat -o seqRo3-t8-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 8 -n 200000000
+sudo perf stat -o seqRo3-t12-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 12 -n 200000000
+sudo perf stat -o seqRo3-t16-200kk.txt -a -r 5 -i -e cache-misses,cycles,instructions,branches,mem-loads,branch-misses,mem-stores,power/energy-ram/,power/energy-pkg/ ./seq.o -t 16 -n 200000000
+echo acabou sequencial
+
 echo acaboooo

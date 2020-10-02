@@ -1,0 +1,17 @@
+# started on Thu Oct  1 13:31:36 2020
+
+
+ Performance counter stats for 'system wide':
+
+    15.616.623.389        cache-misses                                                  (57,14%)
+ 3.456.545.767.294        cycles                                                        (57,14%)
+ 2.481.573.342.324        instructions              #    0,72  insn per cycle           (71,43%)
+   412.994.180.384        branches                                                      (71,43%)
+             2.202        mem-loads                                                     (71,43%)
+     8.050.217.733        branch-misses             #    1,95% of all branches          (71,43%)
+   452.388.580.573        mem-stores                                                    (71,43%)
+            203,46 Joules power/energy-ram/                                           
+          2.939,28 Joules power/energy-pkg/                                           
+
+     182,202359992 seconds time elapsed
+
