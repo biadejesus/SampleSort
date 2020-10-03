@@ -49,7 +49,6 @@ void divide_vetor()
             x--;
             vetor_tam[i] = (tam_vet / num_threads) + 1;
             vet_aux[i] = (long long *)malloc(((tam_vet / num_threads) + 1) * sizeof(long long));
-            
 
             for (int j = 0; j < (tam_vet / num_threads) + 1; j++)
             {
@@ -75,37 +74,24 @@ void divide_vetor()
 
 void pivo()
 {
-    int x = tam_vet % num_threads;
     int k = 0;
     int w = 0;
     vetor_pivo = (long long *)malloc(sizeof(long long *) * (num_threads));
     mediana = (float)(tam_vet / num_threads) / num_threads;
-    printf("MEDIANA=%f\n", mediana);
 
     vet_pivoaux = (long long *)malloc(sizeof(long long *) * (num_threads * num_threads));
 
     for (int i = 0; i < num_threads; i++)
     {
-        if (vetor_tam[i] == (tam_vet / num_threads) + 1)
+        for (float j = 0; j < vetor_tam[i]; j += mediana)
         {
-            for (float j = 0; j < ((tam_vet / num_threads) + 1); j += mediana)
+            vet_pivoaux[k] = vet_aux[i][(int)round(j)];
+            k++;
+            w++;
+            if (w == num_threads)
             {
-                vet_pivoaux[k] = vet_aux[i][(int)round(j)];
-                k++;
-                w++;
-                if (w == num_threads)
-                {
-                    w = 0;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            for (float j = 0; j < (tam_vet / num_threads); j += mediana)
-            {
-                vet_pivoaux[k] = vet_aux[i][(int)round(j)];
-                k++;
+                w = 0;
+                break;
             }
         }
     }
@@ -123,66 +109,33 @@ void pivo()
 void ordenacao()
 {
     int z = 0;
-    int x = tam_vet % num_threads;
     vet_ord = (long long *)malloc(sizeof(long long *) * tam_vet);
     for (int k = 0; k < num_threads; k++)
     {
-        x = tam_vet % num_threads;
         for (int i = 0; i < num_threads; i++)
         {
-            if (vetor_tam[i] == (tam_vet / num_threads) + 1)
+            for (int j = 0; j < vetor_tam[i]; j++)
             {
-                for (int j = 0; j < ((tam_vet / num_threads) + 1); j++)
+                if (vetor_pivo[k] > vet_aux[i][j] && vet_aux[i][j] != -1)
                 {
-                    if (vetor_pivo[k] > vet_aux[i][j] && vet_aux[i][j] != -1)
+                    vet_ord[z] = vet_aux[i][j];
+                    vet_aux[i][j] = -1;
+                    z++;
+                }
+
+                else if (vetor_pivo[k] == vetor_pivo[num_threads - 1])
+                {
+                    if (vet_aux[i][j] != -1)
                     {
-                        printf("");
                         vet_ord[z] = vet_aux[i][j];
                         vet_aux[i][j] = -1;
                         z++;
                     }
-
-                    else if (vetor_pivo[k] == vetor_pivo[num_threads - 1])
-                    {
-                        if (vet_aux[i][j] != -1)
-                        {
-                            vet_ord[z] = vet_aux[i][j];
-                            vet_aux[i][j] = -1;
-                            z++;
-                        }
-                    }
-                    else
-                        break;
                 }
-                qsort(vet_ord, z, sizeof(long long), comparador);
+                else
+                    break;
             }
-            else
-            {
-                for (int j = 0; j < (tam_vet / num_threads); j++)
-                {
-                    if (vetor_pivo[k] > vet_aux[i][j] && vet_aux[i][j] != -1)
-                    {   
-                        printf("");
-                        vet_ord[z] = vet_aux[i][j];
-                        vet_aux[i][j] = -1;
-                        z++;
-                    }
-
-                    else if (vetor_pivo[k] == vetor_pivo[num_threads - 1])
-                    {
-                        if (vet_aux[i][j] != -1)
-                        {
-                            vet_ord[z] = vet_aux[i][j];
-                            vet_aux[i][j] = -1;
-                            z++;
-                        }
-                    }
-                    else
-                        break;
-                }
             qsort(vet_ord, z, sizeof(long long), comparador);
-
-            }
         }
     }
 }
@@ -242,12 +195,16 @@ void parametros(int argv, char **args)
 
 int main(int argv, char **argc)
 {
+    struct timeval begin, end;
+    gettimeofday(&begin, 0);
     parametros(argv, argc);
     divide_vetor();
     pivo();
     ordenacao();
-    struct timeval current_time;
-    gettimeofday(&current_time, NULL);
-    printf("seconds : %ld\nmicro seconds : %ld",
-    current_time.tv_sec, current_time.tv_usec);
+    gettimeofday(&end, NULL);
+    long seconds = end.tv_sec - begin.tv_sec;
+    long microseconds = end.tv_usec - begin.tv_usec;
+    double elapsed = seconds + microseconds * 1e-6;
+
+    printf("Time measured: %.3f seconds.\n", elapsed);
 }
