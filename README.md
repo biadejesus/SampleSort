@@ -1,7 +1,7 @@
 # SampleSort
-Projeto 1 da disciplina de Programação Concorrente 2020
+### Projeto 1 da disciplina de Programação Concorrente 2020
 
-*Modo de execução* 
+**Modo de execução** 
 
 Para compilar o programa utilize o comando make no diretório desejado ou utilize "gcc -O3 samplesort_par.c -lm -lpthread -o samplesort_par.out" para o paralelo e "gcc -O3 samplesort_seq.c -lm -o samplesort_seq.out" para o sequencial. (A flag O3 pode ser mudada para O0, como desejar).
 
