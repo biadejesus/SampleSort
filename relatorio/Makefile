@@ -4,11 +4,11 @@ LATEX=texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-l
 all: relatorio
 
 relatorio:
+
 	@$(INSTALL) $(LATEX)
-	@(cd tex && pdflatex bare_jrnl.tex && bibtex bare_jrnl)
-	@(cd tex && pdflatex bare_jrnl.tex)
-	@(cd tex && pdflatex bare_jrnl.tex)
-	@(cd tex && mv bare_jrnl.pdf ../Projeto_1-PC.pdf)
+	@(cd IEEEtran && pdflatex --shell-escape relatorio.tex && bibtex bare_jrnl)
+	@(cd IEEEtran && pdflatex --shell-escape relatorio.tex)
+	@(cd IEEEtran && mv relatorio.pdf ../Projeto_1-PC.pdf)
 
 clean: 
 	$(RM) relatorio
