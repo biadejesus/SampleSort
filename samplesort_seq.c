@@ -143,7 +143,7 @@ void ordenacao()
 void parametros(int argv, char **args)
 {
     int opt;
-    while ((opt = getopt(argv, args, "t:n:a:")) != -1)
+    while ((opt = getopt(argv, args, "t:n:a:h")) != -1)
     {
         switch (opt)
         {
@@ -182,15 +182,26 @@ void parametros(int argv, char **args)
             tam_vet = count;
             fclose(arq);
             break;
+        case 'h':
+            printf("\n---Ajuda---\n");
+            printf("\nPara executar o programa utlize a flag -t para definir o numero de threads que deseja (EX: -t 8)");
+            printf("\nUtilize a flag -n para definir o tamanho do vetor de entrada (EX: -n 300)");
+            printf("\nUtilize a flag -a para inserir um arquivo como entrada (EX: -a entrada.txt)\n");
+            exit(EXIT_SUCCESS);
+            break;
         default:
             abort();
         }
     }
-    if ((tam_vet / num_threads) < num_threads)
+    if (num_threads!= 0 && (tam_vet / num_threads) < num_threads)
     {
         printf("\nEntrada inválida! Insina N e T tal que T < N/T\n");
         exit(EXIT_FAILURE);
     }
+    if(num_threads == 0){
+        exit(EXIT_FAILURE);
+    }
+
 }
 
 int main(int argv, char **argc)
@@ -205,6 +216,14 @@ int main(int argv, char **argc)
     long seconds = end.tv_sec - begin.tv_sec;
     long microseconds = end.tv_usec - begin.tv_usec;
     double elapsed = seconds + microseconds * 1e-6;
-
-    printf("Time measured: %.3f seconds.\n", elapsed);
+    // printf("\n");
+    // for (int i=0; i< tam_vet; i++){
+    //     printf("%lld ", vetor[i]);
+    // }
+    // printf("\n");
+    // for (int i=0; i< tam_vet; i++){
+    //     printf("%lld ", vet_ord[i]);
+    // }
+    // printf("\n");
+    //printf("Time measured: %.3f seconds.\n", elapsed);
 }
