@@ -13,6 +13,7 @@ utilize a flag -a para inserir um arquivo como entrada (EX: -a entrada.txt).
 Para gerar o relatório utilize o comando make no diretório do relatório. Ocorreu um erro na geração das imagens e não conseguimos solucioná-lo, sendo assim, o pdf pronto com as imagens corretas está no diretório do relatório.
 
 As entradas para a realização de testes podem ser encontradas no Drive: <https://drive.google.com/drive/folders/1oaXV9fAHSLt80ge1bTx2sZDx1Py5uzKv?usp=sharing>
+
 O arquivo tamanhosEntradas especifica o tamanho de cada uma das entradas.
 
 OBS: Em ambos os códigos existem 'printf's comentados, estes mostram o vetor original e o ordenado. Caso queira verificar a saída descomente-os. Caso queira redirecionar a saída para um arquivo, descomente-os e insira " >> saida.txt" ao final da linha de comando da execução.
