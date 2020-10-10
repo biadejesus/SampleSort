@@ -184,9 +184,10 @@ void parametros(int argv, char **args)
             break;
         case 'h':
             printf("\n---Ajuda---\n");
-            printf("\nPara executar o programa utlize a flag -t para definir o numero de threads que deseja (EX: -t 8)");
-            printf("\nUtilize a flag -n para definir o tamanho do vetor de entrada (EX: -n 300)");
-            printf("\nUtilize a flag -a para inserir um arquivo como entrada (EX: -a entrada.txt)\n");
+            printf("\nPara executar o programa utlize a flag -t para definir o numero de threads (pivos) que deseja (EX: -t 8)");
+            printf("\nCaso queira gerar numeros aleatorios como entrada utilize a flag -n para definir o tamanho do vetor de entrada (EX: -n 300)");
+            printf("\nCaso queira inserir um arquivo como entrada utilize a flag -a para inserir um arquivo (EX: -a entrada.txt)\n");
+            printf("\nAo final do código existem 'printf's comentados, estes mostram o vetor original e o ordenado. Caso queira verificar a saída descomente-os. Caso queira redirecionar a saida para um arquivo, descomente-os e insira ' >> saida.txt' ao final da linha de comando da execucao.\n");
             exit(EXIT_SUCCESS);
             break;
         default:
