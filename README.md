@@ -10,7 +10,7 @@ Utilize a flag -n para definir o tamanho do vetor de entrada (EX: -n 300)
 **ou **
 utilize a flag -a para inserir um arquivo como entrada (EX: -a entrada.txt).
 
-Para gerar o relatório utilize o comando make no diretório do relatório.
+Para gerar o relatório utilize o comando make no diretório do relatório. Ocorreu um erro na geração das imagens e não conseguimos solucioná-lo, sendo assim, o pdf pronto com as imagens corretas está no diretório do relatório.
 
 As entradas para a realização de testes podem ser encontradas no Drive: <https://drive.google.com/drive/folders/1oaXV9fAHSLt80ge1bTx2sZDx1Py5uzKv?usp=sharing>
 O arquivo tamanhosEntradas especifica o tamanho de cada uma das entradas.
