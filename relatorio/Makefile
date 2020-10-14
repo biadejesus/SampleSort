@@ -6,9 +6,8 @@ all: relatorio
 relatorio:
 
 	@$(INSTALL) $(LATEX)
-	@(cd IEEEtran && pdflatex --shell-escape relatorio.tex && bibtex bare_jrnl)
-	@(cd IEEEtran && pdflatex --shell-escape relatorio.tex)
-	@(cd IEEEtran && mv relatorio.pdf ../Projeto_1-PC.pdf)
+	@(cd IEEEtran && pdflatex relatorio.tex >/dev/null)
+	@(cd IEEEtran && mv relatorio.pdf ../relatorio)
 
 clean: 
 	$(RM) relatorio

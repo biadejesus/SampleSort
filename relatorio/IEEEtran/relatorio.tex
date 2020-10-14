@@ -2,13 +2,24 @@
 \usepackage{listings}
 \ifCLASSINFOpdf
   \usepackage[pdftex]{graphicx}
+  \usepackage{amsfonts}
+  % declare the path(s) where your graphic files are
   \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
   \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
 \else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
   \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
   \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
   \DeclareGraphicsExtensions{.eps}
 \fi
+\usepackage{graphics}
 \usepackage{float}
 \usepackage{caption}
 \hyphenation{op-tical net-works semi-conduc-tor}
@@ -94,10 +105,8 @@ Na figura \ref{fig:sequencial}, é possível observar um exemplo da execução d
 
 \begin{figure*}[!htbp]
     \centering
-    \centering
-    \includegraphics[width=6in]{IEEEtran/imagens/samplesortsequencial}
-    \DeclareGraphicsExtensions.
     \caption{Exemplo de execução do Sample Sort sequencial}
+    \includegraphics[width=6in]{imagens/samplesortsequencial.pdf}
      \caption*{Fonte: Autoras, 2020}
     \label{fig:sequencial}
 \end{figure*}
@@ -149,9 +158,7 @@ A ideia por traz do algoritmo em sua versão paralela, apresentada na figura \re
 \begin{figure*}[!htbp]
     \centering
     \caption{Exemplo de execução do Sample Sort paralelo}
-    \centering
-    \includegraphics[width=6in]{IEEEtran/imagens/samplesortparalelo}
-    \DeclareGraphicsExtensions.
+    \includegraphics[width=6in]{imagens/samplesortparalelo.pdf}
      \caption*{Fonte: Autoras, 2020}
     \label{fig:paralelo}
 \end{figure*}
@@ -214,20 +221,16 @@ Para os experimentos executados, utilizou-se os otimizadores O0 e O3, para 2,4,8
 \begin{figure}[H]
     \centering
     \caption{Speedup O0}
-    \centering
-    \includegraphics[width=3.7in]{IEEEtran/imagens/SpeedupO0.png}
+    \includegraphics[width=3.7in]{imagens/SpeedupO0.png}
     \caption*{Fonte: Autoras, 2020}
-    \DeclareGraphicsExtensions.
     \label{fig:speedupO0}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \caption{Speedup O3}
-    \centering
-    \includegraphics[width=3.7in]{IEEEtran/imagens/SpeedupO3.png}
+    \includegraphics[width=3.7in]{imagens/SpeedupO3.png}
     \caption*{Fonte: Autoras, 2020}
-    \DeclareGraphicsExtensions.
     \label{fig:speedupO3}
 \end{figure}
 
@@ -260,20 +263,16 @@ Em ambos os gráficos \ref{fig:eficienciaO0} e \ref{fig:eficienciaO3}, foi poss�
 \begin{figure}[H]
     \centering
     \caption{Eficiência utilizando O0}
-    \centering
-    \includegraphics[width=3.7in]{IEEEtran/imagens/EficienciaO0.png}
+    \includegraphics[width=3.7in]{imagens/EficienciaO0.png}
     \caption*{Fonte: Autoras, 2020}
-    \DeclareGraphicsExtensions.
     \label{fig:eficienciaO0}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \caption{Eficiência utilizando O3}
-    \centering
-    \includegraphics[width=3.7in]{IEEEtran/imagens/EficienciaO3.png}
+    \includegraphics[width=3.7in]{imagens/EficienciaO3.png}
     \caption*{Fonte: Autoras, 2020}
-    \DeclareGraphicsExtensions.
     \label{fig:eficienciaO3}
 \end{figure}
 
